@@ -1,33 +1,50 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/IPe3ACOH)
-# React - Intro Exercise
+# React + TypeScript + Vite
 
-**Goal:** To understand the basics of React components and props.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Instructions
+Currently, two official plugins are available:
 
-1. Clone the repository to your local machine.
-2. Run `npm create vite@latest my-first-react-app` on the terminal. Select **React > TypeScript**. Run `cd my-first-react-app` to move to the directory.
-3. Create the following components inside the **src/components** directory:
-   - `Welcome.tsx`
-   - `Header.tsx`
-   - `Info.tsx`
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-4. Modify your `App.tsx` file to:
-   - Pass the message `"Hello!"` as a prop to the `Welcome` component.
-   - Pass the string `"My First React App"` as a prop named `logoText` to the `Header` component.
-   - Pass the following props to the `Info` component:
-     - `firstname`: Your first name (string).
-     - `lastname`: Your last name (string).
-     - `age`: Your age (number).
-     - `isStudent`: If you are a student (boolean).
+## Expanding the ESLint configuration
 
-5. Implement the following functionality in each component:
-   - **`Welcome.tsx`**:  
-     - Display the `message` prop inside a `<p>` tag.
-   - **`Header.tsx`**:  
-     - Display the `logoText` prop inside an `<h1>` tag.
-   - **`Info.tsx`**:  
-     - Display the `firstname`, `lastname`, `age`, and `isStudent` props inside a `<div>`. Format the output as:  
-       `"Name: [firstname] [lastname], Age: [age], Is student: [Yes if true, No if false]"`.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-6. Commit and push your changes.
+- Configure the top-level `parserOptions` property like this:
+
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
